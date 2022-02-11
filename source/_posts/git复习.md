@@ -15,6 +15,7 @@ categories:
   - 改 git mv [file-origin] [file-newname]
 - 分支操作
   - 查: git branch -a
+  - 切换到: git chechout [branch]
   - 增
     - 新建并切换到: git chechout -b [branch-name]
     - 新建local-branch并与remote-branch关联: git branch --track [branch] [remote-branch]
