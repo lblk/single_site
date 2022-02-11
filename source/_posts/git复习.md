@@ -46,4 +46,5 @@ categories:
 - git stash [pop]
 - git archive
 - git commit
+- git clone -b [branch]
 {%endmarkmap%}
