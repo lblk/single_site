@@ -46,4 +46,4 @@ jobs:
         git config --global user.email $GIT_EMAIL
         git commit -m "Site deployed by GitHub Actions"
         git remote add origin "https://$GH_TOKEN@$REPO"
-        git push origin blog
+        git push --force origin blog
