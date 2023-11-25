@@ -50,6 +50,7 @@ jobs:
       run: |
         git config --global user.email "dug.lblk@gmail.com"
         git config --global user.name "lblk"
+
     - name: Deploy hexo blog
       env: 
         # Github 仓库
@@ -62,6 +63,7 @@ jobs:
         chmod 700 ~/.ssh
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
+
     - name: Deploy
       run: |
         hexo clean
