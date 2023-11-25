@@ -9,60 +9,40 @@ on:
       - src
       - main
 
-env:
-  TZ: Asia/Shanghai
 
 jobs:
-  blog-cicd:
-    name: Hexo blog build & deploy
-    runs-on: ubuntu-latest # 使用最新的 Ubuntu 系统作为编译部署的环境
+  hexo-deployment:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Shanghai
 
     steps:
-    - name: Checkout codes
-      uses: actions/checkout@v3
+    - name: Checkout source
+      uses: actions/checkout@v2
+      with:
+        submodules: true
 
-    - name: Setup node
-      # 设置 node.js 环境
+    - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
         node-version: '14.x'
 
-    - name: Cache node modules
-      # 设置包缓存目录，避免每次下载
-      uses: actions/cache@v1
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
-    - name: Install hexo dependencies
-      # 下载 hexo-cli 脚手架及相关安装包
+    - name: Install dependencies & Generate static files
       run: |
-        npm install -g hexo-cli
-        npm install
-
-    - name: Generate files
-      # 编译 markdown 文件
-      run: |
+        node -v
+        npm i -g hexo-cli
+        npm i
         hexo clean
-        hexo generate
-
-    - name: config git
-      # 编译 markdown 文件
-      run: |
-        git config --global user.email "dug.lblk@gmail.com"
-        git config --global user.name "lblk"
-
-    - name: gh login
-      # 编译 markdown 文件
-      run: |
-        sudo apt install gh
-        echo "${{ secrets.HEXO_DEPLOY_KEY }}" > mytoken.txt
-        gh auth login --with-token < mytoken.txt
-
-
-    - name: Deploy
+        hexo g
+    - name: Deploy to Github Pages
       env:
-        GITHUB_TOKEN: ${{ secrets.HEXO_DEPLOY_KEY }}
+        GIT_NAME: lblk
+        GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+        REPO: github.com/lblk/single_site.git
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
-        hexo clean
-        hexo deploy
+        cd ./public && git init && git add .
+        git config --global user.name $GIT_NAME
+        git config --global user.email $GIT_EMAIL
+        git commit -m "Site deployed by GitHub Actions"
+        git push --force --quiet "https://$GH_TOKEN@$REPO" blog
