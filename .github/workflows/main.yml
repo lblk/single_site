@@ -51,19 +51,8 @@ jobs:
       run: |
         git config --global user.email "dug.lblk@gmail.com"
         git config --global user.name "lblk"
+        git config --global user.password '${{ secrets.HEXO_DEPLOY_KEY }}'
 
-    - name: Deploy hexo blog
-      env: 
-        # Github 仓库
-        ACTION_DEPLOY_KEY: ${{ secrets.HEXO_DEPLOY_KEY }}
-        # Coding 仓库
-      # 将编译后的博客文件推送到指定仓库
-      run: |
-        mkdir -p ~/.ssh/
-        echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
-        chmod 700 ~/.ssh
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
 
     - name: Deploy
       run: |
