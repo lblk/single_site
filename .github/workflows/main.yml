@@ -56,5 +56,7 @@ jobs:
 
     - name: Deploy
       run: |
+        env:
+          GITHUB_TOKEN: ${{ secrets.HEXO_DEPLOY_KEY }}
         hexo clean
         hexo deploy
