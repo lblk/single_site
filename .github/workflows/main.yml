@@ -51,7 +51,13 @@ jobs:
       run: |
         git config --global user.email "dug.lblk@gmail.com"
         git config --global user.name "lblk"
-        git config --global user.password '${{ secrets.HEXO_DEPLOY_KEY }}'
+
+    - name: gh login
+      # 编译 markdown 文件
+      run: |
+        sudo apt install gh
+        echo "${{ secrets.HEXO_DEPLOY_KEY }}" > mytoken.txt
+        gh auth login --with-token < mytoken.txt
 
 
     - name: Deploy
