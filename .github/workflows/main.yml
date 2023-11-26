@@ -32,8 +32,21 @@ jobs:
         node -v
         npm i -g hexo-cli
         npm i
+        
+    - name: Cache node modules
+      # 设置包缓存目录，避免每次下载
+      uses: actions/cache@v1
+      with:
+        path: |
+          **/node_modules
+           ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        
+    - name: hexo run
+      run: |
         hexo clean
         hexo g
+        
     - name: Deploy to Github Pages
       env:
         GIT_NAME: lblk
