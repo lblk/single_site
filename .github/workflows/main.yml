@@ -32,9 +32,9 @@ jobs:
       uses: actions/cache@v1
       with:
         path: |
-          **/node_modules
-           ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          '**/node_modules'
+          '~/.npm'
+        key: ${{ runner.os }}-node-v2-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install dependencies & Generate static files
       run: |
