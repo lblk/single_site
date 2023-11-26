@@ -29,12 +29,12 @@ jobs:
         
     - name: Cache node modules
       # 设置包缓存目录，避免每次下载
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
         path: |
-          '**/node_modules'
-          '~/.npm'
-        key: ${{ runner.os }}-node-v2-${{ hashFiles('**/package-lock.json') }}
+          **/node_modules
+          ~/.npm
+        key: ${{ runner.os }}-node-v3-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install dependencies & Generate static files
       run: |
