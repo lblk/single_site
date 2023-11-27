@@ -9,7 +9,7 @@ on:
       - src
       - main
     paths:
-      - 'source'
+      - 'source/**'
 
 
 jobs:
