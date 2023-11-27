@@ -23,6 +23,9 @@ tags:
 11.《深入linux内核架构》\
 12.fstack + netmap移植协议栈\
 13.geopandas计算/导入\
-14.海量小文件存储\
+14.海量小文件存储
+- [ ] 14.1.尝试部署minio
+- [ ] 14.2.尝试部署ceph
+
 15.zsh\
 16.KLPMAKE
