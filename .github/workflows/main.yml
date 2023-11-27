@@ -36,7 +36,7 @@ jobs:
         path: |
           **/node_modules
           ~/.npm
-        key: ${{ runner.os }}-node-v3-${{ hashFiles('**/package-lock.json') }}
+        key: ${{ runner.os }}-node-v5-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install dependencies & Generate static files
       run: |
