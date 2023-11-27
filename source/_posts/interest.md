@@ -19,13 +19,12 @@ tags:
 7.LLM，通用基础层，对接所有LLM-kpi\
 8.LLM上层应用实践\
 9.释放做题家之魂\
-10.读CRM代码\
-11.《深入linux内核架构》\
-12.fstack + netmap移植协议栈\
-13.geopandas计算/导入\
-14.海量小文件存储
-- [ ] 14.1.尝试部署minio
-- [ ] 14.2.尝试部署ceph
+10.《深入linux内核架构》\
+11.fstack + netmap移植协议栈\
+12.geopandas计算/导入\
+13.海量小文件存储
+- [ ] 13.1.尝试部署minio
+- [ ] 13.2.尝试部署ceph
 
-15.zsh\
-16.KLPMAKE
+14.zsh\
+15.KLPMAKE
