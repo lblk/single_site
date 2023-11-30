@@ -20,7 +20,10 @@ tags:
 8.LLM上层应用实践\
 9.释放做题家之魂\
 10.《深入linux内核架构》\
-11.fstack + netmap移植协议栈\
+11.网络协议栈建设
+- [ ] 11.1 fstack + netmap移植协议栈
+- [ ] 11.2 cifs/nfs proxy
+
 12.geopandas计算/导入\
 13.海量小文件存储
 - [ ] 13.1.尝试部署minio
