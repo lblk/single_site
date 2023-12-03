@@ -16,4 +16,6 @@ welcome to visit my [blog](https://lblk.github.io/single_site "Go to my blog rig
 If u have any questions or suggestions, open an issue.
 
 ## plan
-update dep to node16 and finish test
+- [x] update dep to node16 and finish test
+- [x] update dep to node20 and finish test
+- [x] support upload picture(jpg) from local
