@@ -5,3 +5,5 @@ tags:
 ---
 
 ![111test](github-action-test/111test.jpg)
+
+![111test](../image/github-action-test/111test.jpg)
