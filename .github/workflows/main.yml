@@ -55,6 +55,7 @@ jobs:
         GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
         REPO: github.com/lblk/single_site.git
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         cd ./public && git init && git add .
         git config --global user.name $GIT_NAME
