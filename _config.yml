@@ -108,3 +108,10 @@ deploy:
   type: git
   repo: https://github.com/lblk/single_site.git
   branch: blog
+
+# hexo sitemap网站地图
+sitemap:
+  path: sitemap.xml
+
+baidusitemap:
+  path: baidusitemap.xml
