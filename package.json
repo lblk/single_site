@@ -29,7 +29,7 @@
     "hexo-simple-mindmap": "^0.8.0",
     "hexo-tag-cloud": "2.1.2",
     "hexo-theme-landscape": "^1.0.0",
-    "hexo-theme-next": "^8.18.2"
+    "hexo-theme-next": "^8.19.1"
   },
   "devDependencies": {
     "object-assign": "^4.1.1"
