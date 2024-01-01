@@ -33,3 +33,6 @@ top: 1
 
 14.zsh\
 15.KLPMAKE
+16.调试树莓派4b的istoreOS(docker+alist阿里云盘+lan)
+17.开发板配置为网络开机器
+18.端口反向器+端口映射研究
