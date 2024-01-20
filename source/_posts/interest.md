@@ -14,6 +14,7 @@ top: 1
 - [ ] 3.3.ddr3项目
 - [ ] 3.4.RK3568+3*I211AT
 - [ ] 3.5.[反激电源](https://www.bilibili.com/video/av916958057/)
+- [ ] 3.6 poe供电/DC圆头供电/type-c DC供电耦合网络开机棒
 
 4.cissp/cisp\
 5.finance财务知识\
@@ -37,3 +38,6 @@ top: 1
 17.开发板配置为网络开机器
 18.端口反向器+端口映射研究
 19.deepspeed多机多卡
+20.wg-easy
+- [ ] route-ip 在web上填写的功能
+- [ ] 多租户功能（带验证码）
