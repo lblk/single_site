@@ -17,6 +17,13 @@ tags:
 
 ## 主要概念
 - 虚拟服务器(virtual server)
+  - 配置1：虚拟服务器类型
+    - 1.http
+    - 3.域名路由
+    - 4.mysql
+    - 5.postgresql
+  - 配置2：虚拟服务器下游
+  - 配置3：ssl加密
 虚拟服务器有一个配置：下游，下游可以配置多个服务(service object)
 - 服务(service object)
 - 服务器(real service)
