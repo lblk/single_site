@@ -18,5 +18,6 @@ top: 9999
 - docker
 - pypi镜像站
 - docker镜像站(flask*)
+- npm镜像站
 ### 完善实验环境
 - spdk + iscsi测试nas的裸盘访问速度
