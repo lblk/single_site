@@ -22,19 +22,31 @@ tags:
     - 3.域名路由
     - 4.mysql
     - 5.postgresql
-  - 配置2：虚拟服务器下游
+    - 6.ssl
+    - http-3xx重定向（可能在均衡算法上有限制）
+- 配置2：虚拟服务器下游
   - 配置3：ssl加密
-虚拟服务器有一个配置：下游，下游可以配置多个服务(service object)
+  虚拟服务器有一个配置：下游，下游可以配置多个服务(service object)
+  - 配置4：会话保持
+  
 - 服务(service object)
+
 - 服务器(real service)
+
 - 服务器组(real service group)
+
 - 健康检查模板(health-check template)
-可以配置两种类型的模板：1.健康检查，2.健康检查组
-ui上是一个列表，列表可以按多种项目属性排列。最重要的是：健康检查和健康检查组同时出现在一个表中。模板类型属性有两种取值：1.健康检查，2.健康检查组
+  可以配置两种类型的模板：1.健康检查，2.健康检查组
+  ui上是一个列表，列表可以按多种项目属性排列。最重要的是：健康检查和健康检查组同时出现在一个表中。模板类型属性有两种取值：1.健康检查，2.健康检查组
+
 - 健康检查：可以配置http、https等类型的健康检查。
+
 - 健康检查组：可以讲几个健康检查合在一起看作模板。
+
 - 目前只需要支持将健康检查模板绑定在虚拟服务器上
-3.HA
+  3.HA
+
+  ![_cgi-bin_mmwebwx-bin_webwxgetmsgimg__&MsgID=750098927559361171&skey=@crypt_3d1cb629_b407c9d93377ce0e31ae48e5487efb36&mmweb_appid=wx_webfilehelper](../image/_cgi-bin_mmwebwx-bin_webwxgetmsgimg__&MsgID=750098927559361171&skey=@crypt_3d1cb629_b407c9d93377ce0e31ae48e5487efb36&mmweb_appid=wx_webfilehelper.jpg)
 
 ## 营销亮点
 1.一次购买，终身免费，没有任何许可证到期的问题，免费提供安全更新
