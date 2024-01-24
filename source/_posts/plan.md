@@ -39,14 +39,14 @@ top: 9999
     - 完善ip-cidr配置界面
     - 完善PersistKeepalive配置生成
     - 调查研究登录机制，研究如何实现多容器/docker-compose/k8s/下的多租户模式
-- gitlab
-- mysql
-- postgresql
-- wow server
-- docker
-- pypi镜像站
-- docker镜像站(flask*)
-- npm镜像站
+- gitlab(docker)
+- mysql(docker)
+- postgresql(docker)
+- wow server(raw)
+- [x] docker
+- pypi镜像站(flask-pypi-proxy)
+- docker镜像站(harbor)
+- npm镜像站(verdaccio)
 ### 完善实验环境
 - 给机械硬盘测速，形成一个对速度的基本认识
 - spdk + iscsi测试nas的裸盘访问速度
