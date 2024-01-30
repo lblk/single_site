@@ -24,7 +24,7 @@ tags:
     - 5.postgresql
     - 6.ssl
     - http-3xx重定向（可能在均衡算法上有限制）
-- 配置2：虚拟服务器下游
+  - 配置2：虚拟服务器下游
   - 配置3：ssl加密
   虚拟服务器有一个配置：下游，下游可以配置多个服务(service object)
   - 配置4：会话保持
@@ -44,10 +44,11 @@ tags:
 - 健康检查组：可以讲几个健康检查合在一起看作模板。
 
 - 目前只需要支持将健康检查模板绑定在虚拟服务器上
-  3.HA
+## HA
 
   ![_cgi-bin_mmwebwx-bin_webwxgetmsgimg__&MsgID=750098927559361171&skey=@crypt_3d1cb629_b407c9d93377ce0e31ae48e5487efb36&mmweb_appid=wx_webfilehelper](../image/_cgi-bin_mmwebwx-bin_webwxgetmsgimg__&MsgID=750098927559361171&skey=@crypt_3d1cb629_b407c9d93377ce0e31ae48e5487efb36&mmweb_appid=wx_webfilehelper.jpg)
-
+## dns监视和代理
+  劫持所有的53端口流量
 ## 营销亮点
 1.一次购买，终身免费，没有任何许可证到期的问题，免费提供安全更新
 2.只销售软件，硬件可以随便换，但是通常是代购主流工控机，然后把整机包括软件一同交付（带加密芯片）。售前付费属于服务费用，不属于产品整体费用。
