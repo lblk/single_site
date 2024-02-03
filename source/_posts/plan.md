@@ -47,6 +47,7 @@ top: 9999
 - pypi镜像站
 - docker镜像站(flask*)
 - npm镜像站
+- next-cloud
 ### 完善实验环境
 - 给机械硬盘测速，形成一个对速度的基本认识
 - spdk + iscsi测试nas的裸盘访问速度
