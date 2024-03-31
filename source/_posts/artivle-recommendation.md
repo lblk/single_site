@@ -8,3 +8,4 @@ tags:
 
 - [x] [linux内核网络性能的悲剧之源-锁](https://zhuanlan.zhihu.com/p/385410196)
 - [x] [如何通过iptables劫持tcp/udp](https://www.jianshu.com/p/5393fb5e2c87)
+- [ ] [内核栈详解](http://arthurchiao.art/blog/linux-net-stack-implementation-rx-zh)
