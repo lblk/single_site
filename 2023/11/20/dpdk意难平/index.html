@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/single_site/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/single_site/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/single_site/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/single_site/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/single_site/css/main.css">
+
+
+<link rel="stylesheet" href="/single_site/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lblk.github.io","root":"/single_site/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="经历了一点点沉淀以后，总算从历史包袱里面脱身出来，从全局再次思考dpdk相关的事情。大学刚毕业的时候，找不到工作，总算是数通行业收留了我，各家做的东西都大差不差，不过对cpu和内存的认知确实提升了一个档次，对后台系统也有一定的理解了。同时，因为积累的怨气似乎全都被加之到了dpdk上，仿佛dpdk天生就是一个罪人，给数通行业带来无穷无尽的内卷。干了数通一年，发现太卷了，跳出行业去了一家toG的公司，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dpdk意难平">
+<meta property="og:url" content="http://lblk.github.io/single_site/2023/11/20/dpdk%E6%84%8F%E9%9A%BE%E5%B9%B3/index.html">
+<meta property="og:site_name" content="做题家的非洲">
+<meta property="og:description" content="经历了一点点沉淀以后，总算从历史包袱里面脱身出来，从全局再次思考dpdk相关的事情。大学刚毕业的时候，找不到工作，总算是数通行业收留了我，各家做的东西都大差不差，不过对cpu和内存的认知确实提升了一个档次，对后台系统也有一定的理解了。同时，因为积累的怨气似乎全都被加之到了dpdk上，仿佛dpdk天生就是一个罪人，给数通行业带来无穷无尽的内卷。干了数通一年，发现太卷了，跳出行业去了一家toG的公司，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-20T07:22:22.000Z">
+<meta property="article:modified_time" content="2024-03-31T10:13:15.774Z">
+<meta property="article:author" content="LbLk">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://lblk.github.io/single_site/2023/11/20/dpdk%E6%84%8F%E9%9A%BE%E5%B9%B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>dpdk意难平 | 做题家的非洲</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/single_site/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做题家的非洲</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/single_site/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/single_site/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/single_site/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/single_site/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/single_site/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lblk.github.io/single_site/2023/11/20/dpdk%E6%84%8F%E9%9A%BE%E5%B9%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/single_site/images/avatar.gif">
+      <meta itemprop="name" content="LbLk">
+      <meta itemprop="description" content="读研报，讲礼貌">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做题家的非洲">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          dpdk意难平
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-20 15:22:22" itemprop="dateCreated datePublished" datetime="2023-11-20T15:22:22+08:00">2023-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-03-31 18:13:15" itemprop="dateModified" datetime="2024-03-31T18:13:15+08:00">2024-03-31</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>经历了一点点沉淀以后，总算从历史包袱里面脱身出来，从全局再次思考dpdk相关的事情。<br>大学刚毕业的时候，找不到工作，总算是数通行业收留了我，各家做的东西都大差不差，不过对cpu和内存的认知确实提升了一个档次，对后台系统也有一定的理解了。同时，因为积累的怨气似乎全都被加之到了dpdk上，仿佛dpdk天生就是一个罪人，给数通行业带来无穷无尽的内卷。<br>干了数通一年，发现太卷了，跳出行业去了一家toG的公司，本来以为可以彻底放下dpdk了，没想到又因为家庭网络的问题再次接触到dpdk，与之前工作不同，这次明显是以兴趣为驱动，动力更足，做的东西也更杂。<br>经历兜兜转转之后，总算是再次找到一个机会终结所有的议题，那就是：我究竟是否需要dpdk？这个议题关系到我今后所有的工作中是否有必要再次dpdk敞开我的脑洞。<br>先说结论，未来可能需要，现在肯定不需要，资金保持0投入。<br>容我稍稍解释一下这几点。</p>
+<h1 id="现在肯定不需要"><a href="#现在肯定不需要" class="headerlink" title="现在肯定不需要"></a>现在肯定不需要</h1><p>从需求角度讲，我没有dpdk的特别需求，因为dpdk以转发带宽见长，他的诞生就是为了解决“PCIE在kernel的限制下无法发挥全部带宽”的问题，但实际上我不需要解决这个问题，也就不需要dpdk这个工具。</p>
+<h2 id="我为什么不需要网络带宽"><a href="#我为什么不需要网络带宽" class="headerlink" title="我为什么不需要网络带宽"></a>我为什么不需要网络带宽</h2><p>首先，我家只有千兆网络，而今天市面上的R66s，仅需要300出头的价格，就能完全解决我的问题，即使是电信老老实实，真的提供了千兆带宽的情况下，R66s也有一倍多冗余。况且，R66s这个选型，是基于我对网络结构的苛刻要求得出的。在我看来，什么旁路、单臂这些都是治标不治本的方案，隔靴搔痒罢了，要说皮实耐用好部署，还得网桥方案。</p>
+<h2 id="我为什么不需要解决kernel限制网络带宽的问题"><a href="#我为什么不需要解决kernel限制网络带宽的问题" class="headerlink" title="我为什么不需要解决kernel限制网络带宽的问题"></a>我为什么不需要解决kernel限制网络带宽的问题</h2><p>其次，kernel限制带宽的问题，经过4.17的筹备到5.17的绽放，几乎已经不是问题了，甚至不夸张的说，如果hash算法天衣无缝，连epoll的问题都没有了。只要核心和网卡匹配得当，加上近些年核心通过不断提升自己的吞吐能力，已经逐渐不再成为网卡通讯的瓶颈，如果摁要说瓶颈，那也只存在于CPU很差但是通道很多并且确实插了很多光口的情况。然而现在CPU也不贵，network-controller 四五十一个，实在没有必要省下CPU这边的几十块钱。退一万步讲，就现在绝大多数软路由这配置，你上dpdk，提升有一倍嘛？网卡瓶颈也要考虑的嘛。</p>
+<h2 id="我为什么不需要可编程的路由器"><a href="#我为什么不需要可编程的路由器" class="headerlink" title="我为什么不需要可编程的路由器"></a>我为什么不需要可编程的路由器</h2><p>曾经在数通行业工作的经历，让我对很多路由器配置留下了深刻的印象，包括但不限于vxlan、L2TP、PPTP、ipsec、torjan等等，诸多配置都让我憧憬着自己有一天也能搞出类似的网络工具。我曾经想象过，自己通过dpdk，适配kcp，甚至把kcp做在4层，创造一个绝对低延迟的clash中心站，再加上vpn手段把朋友之间连进一个局域网，从此每天晚上愉快地魔兽、红警、甚至星际和wow。然而事实告诉我，游戏没那么重要，娱乐玩家只需要一个勉强过得去的加速器，ti12第四中单况且能忍受60ping，我一个分数不够人家零头的菜鸡何德何能享受2ping3ping一直跳？况且慢速加速器目前价格也很低，dpdk高昂的开发成本实在是没必要自建路由器。最最重要的是，当我打开一台中高端华为路由器的时候，我发现里面竟然已经包含了我所期待的主要功能！那还有什么好说的，拥抱厂家，抛弃自研吧。</p>
+<h2 id="我为什么不需要掌握dpdk编程"><a href="#我为什么不需要掌握dpdk编程" class="headerlink" title="我为什么不需要掌握dpdk编程"></a>我为什么不需要掌握dpdk编程</h2><p>其实抛开上述问题，我依然有一个借口能够维持兴趣，那就是：以后工作可能还要用。但是这个借口最近也不灵了，一是因为我不再需要搞自研业，二是因为我已经不看好这个行业了。<br>至于我为什么不看好这个行业，从近期阿里巴巴故障频发就能得出结论：增量太少，存量太难。dpdk三个方向，一个是适配芯片，这个其实没多少工作量，更多是订做一次优化一生的数据中心DPU&#x2F;XPU研发工作,二是开发硬件盒子，这个就太红海了，懂的都懂，现在谁家的交换机没点7层的功能，那还能叫交换机？第三个，也是CN数通最后的希望，云计算虚拟化，然而虚拟化服务的多是小企业，但凡是有一点规模，订制一个机架，7、8台2U的E5，安装PXE，就足够陪伴小公司好久了，同时算上场地运维的花销甚至还会比云服务器更划算，这就是目前云服务的现状，小企业不行，云服务就永远不行，然而中国文化天然就对小企业不友好。这也是为什么云厂商，尤其阿里的工程师们要绞尽脑汁怼功能，因为小企业就那么多，需求都大差不差，做一堆高级功能也不见得能卖出去。<br>你可能会说，再不济，可以自己找活接单啊，其实这个路子跟适配芯片的结局是一样的，定价太高就会有通用设备替代你，定价太低其实赚不到钱，而企业为了节约成本，一定是把一次性的网络研发费用压到最低——————开源害人啊。</p>
+<p>#资金保持0投入<br>之前看了很多工控机，包括intel-i5-5200U+4intel千兆网口那款，RK3568+6网口那款，归结为一个问题，就是我是否需要实体机进行开发？想象中就算不开发，留下做软路由也是极好的。然而事实并不如想象中美好，同样性能的路由器，非dpdk的能达到dpdk款的1&#x2F;2到1&#x2F;3，完全跟普通软路由不是一个性价比。具体到实践性，其实也可以用qemu+libvirt方案替代，甚至用vmware-player替代，这都是免费方案，直接省下上千块钱，买点排骨不香嘛？当然你可能说我排骨人，但是除去钱的问题，家里有没有地方放也是一个问题，现在我家里有树莓派、FPGA、AT32F407等等东西好多记不得名的实验板，再加一个进来，家里有没有地方放？脑子里有没有地方记得？总的来说，不能再添实物了，但是留个种子可以：通过virt-manager给qemu-kvm虚拟机添加e1000网卡（至少4个网卡吧？）得到libvirt-kvm的xml表示，保存好这个xml，以后就随时可以把它拿出来创建新的虚拟机，随时可以有一台全新的工控机！</p>
+<h2 id="好文推荐"><a href="#好文推荐" class="headerlink" title="好文推荐"></a>好文推荐</h2><p>顺带一提，openwrt官网有一篇文章叫做《openwrt变砖恢复向导》太牛了这篇文章，短短几页就建立起了我对小型实用嵌入式系统构成的认识，以前修复ax3600的时候怎么就没看到这种好文呢？</p>
+<p>#未来可能需要<br>好，讲到这里，可以说，就目前的形势，我将会有很长一段时间不会再和dpdk接触。当然了，kernel虽然过去的一段时间发生了巨大的变化升级，但是其以锁为核心的编程习惯不可能改变，随处引用各种顺序化队列代替锁争抢终究是拿熵增换性能，总有一天会进化到架构复杂度过大而无法进一步适应网卡需求的地步，但那个时间点多久回来呢？按我对13代i9的估计，大概30年吧，等那个时候我都快退休了，也无所谓用不用dpdk了。另一个角度讲，网络历史的进化就是网卡性能和cpu性能之间不断拉锯和妥协，似乎二者拉锯的赛道-pcie从来没有成为瓶颈过，现在代表网卡性能的一边祭出了FPGA，CPU居然还是顶住了，更何况后面还有AMD超大缓存的服务器CPU尚未上场，看来网卡端的选手们还要加油啊，dpdk就暂且退场一个时期，多长呢？我的信心不变，大概30年吧。</p>
+<p>好，我和dpdk的故事就到2023年11月20日晚7点26结束，再见老朋友</p>
+<script type="text&#x2F;javascript" src="https://unpkg.com/kity@2.0.4/dist/kity.min.js"></script><script type="text&#x2F;javascript" src="https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text&#x2F;javascript" src="https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text&#x2F;css" href="https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css">
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/single_site/2022/02/11/git%E5%A4%8D%E4%B9%A0/" rel="prev" title="git复习">
+      <i class="fa fa-chevron-left"></i> git复习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/single_site/2023/11/21/github-action-test/" rel="next" title="github-action-test">
+      github-action-test <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%B0%E5%9C%A8%E8%82%AF%E5%AE%9A%E4%B8%8D%E9%9C%80%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">现在肯定不需要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E9%9C%80%E8%A6%81%E7%BD%91%E7%BB%9C%E5%B8%A6%E5%AE%BD"><span class="nav-number">1.1.</span> <span class="nav-text">我为什么不需要网络带宽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E9%9C%80%E8%A6%81%E8%A7%A3%E5%86%B3kernel%E9%99%90%E5%88%B6%E7%BD%91%E7%BB%9C%E5%B8%A6%E5%AE%BD%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">我为什么不需要解决kernel限制网络带宽的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E9%9C%80%E8%A6%81%E5%8F%AF%E7%BC%96%E7%A8%8B%E7%9A%84%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="nav-number">1.3.</span> <span class="nav-text">我为什么不需要可编程的路由器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E9%9C%80%E8%A6%81%E6%8E%8C%E6%8F%A1dpdk%E7%BC%96%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">我为什么不需要掌握dpdk编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%BD%E6%96%87%E6%8E%A8%E8%8D%90"><span class="nav-number">1.5.</span> <span class="nav-text">好文推荐</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">LbLk</p>
+  <div class="site-description" itemprop="description">读研报，讲礼貌</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/single_site/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/single_site/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/single_site/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LbLk</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/single_site/lib/anime.min.js"></script>
+  <script src="/single_site/lib/velocity/velocity.min.js"></script>
+  <script src="/single_site/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/single_site/js/utils.js"></script>
+
+<script src="/single_site/js/motion.js"></script>
+
+
+<script src="/single_site/js/schemes/pisces.js"></script>
+
+
+<script src="/single_site/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '695e653ddeee97d630ba',
+      clientSecret: '992155cd3b91014a4a3c185456652b95d19c708f',
+      repo        : 'blog_comments',
+      owner       : 'lblk',
+      admin       : ['lblk'],
+      id          : '6bf6a1acdfbeab5ded120dff6a940d8a',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/single_site/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/single_site/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/single_site/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/single_site/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/single_site/css/main.css">
+
+
+<link rel="stylesheet" href="/single_site/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lblk.github.io","root":"/single_site/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="首先要明确，在CA体制下只存在两种文件：  crt文件：存储证书、公钥，可以给别人看 key文件：存储私钥，不能给别人看，除了CA  为什么私钥可以给CA看呢？因为CA想派人伪装你，有一万种方法，不需要通过记你的私钥 CA体制中的角色CA体制中，有一名CA和许多名用户，CA服务于其他所有人 各文件的来源 ca.key：CA的私钥，由CA自行生成 ca.crt：CA的公钥（证书），由CA根据ca.k">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CA体制，以及crt文件&#x2F;key文件">
+<meta property="og:url" content="http://lblk.github.io/single_site/2024/01/19/CA/index.html">
+<meta property="og:site_name" content="做题家的非洲">
+<meta property="og:description" content="首先要明确，在CA体制下只存在两种文件：  crt文件：存储证书、公钥，可以给别人看 key文件：存储私钥，不能给别人看，除了CA  为什么私钥可以给CA看呢？因为CA想派人伪装你，有一万种方法，不需要通过记你的私钥 CA体制中的角色CA体制中，有一名CA和许多名用户，CA服务于其他所有人 各文件的来源 ca.key：CA的私钥，由CA自行生成 ca.crt：CA的公钥（证书），由CA根据ca.k">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-19T09:21:52.000Z">
+<meta property="article:modified_time" content="2024-03-31T10:13:15.774Z">
+<meta property="article:author" content="LbLk">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://lblk.github.io/single_site/2024/01/19/CA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CA体制，以及crt文件/key文件 | 做题家的非洲</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/single_site/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做题家的非洲</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/single_site/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/single_site/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/single_site/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/single_site/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/single_site/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lblk.github.io/single_site/2024/01/19/CA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/single_site/images/avatar.gif">
+      <meta itemprop="name" content="LbLk">
+      <meta itemprop="description" content="读研报，讲礼貌">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做题家的非洲">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CA体制，以及crt文件/key文件
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-01-19 17:21:52" itemprop="dateCreated datePublished" datetime="2024-01-19T17:21:52+08:00">2024-01-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-03-31 18:13:15" itemprop="dateModified" datetime="2024-03-31T18:13:15+08:00">2024-03-31</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>首先要明确，在CA体制下只存在两种文件：</p>
+<ul>
+<li>crt文件：存储证书、公钥，可以给别人看</li>
+<li>key文件：存储私钥，不能给别人看，除了CA</li>
+</ul>
+<p>为什么私钥可以给CA看呢？因为CA想派人伪装你，有一万种方法，不需要通过记你的私钥</p>
+<h2 id="CA体制中的角色"><a href="#CA体制中的角色" class="headerlink" title="CA体制中的角色"></a>CA体制中的角色</h2><p>CA体制中，有一名CA和许多名用户，CA服务于其他所有人</p>
+<h2 id="各文件的来源"><a href="#各文件的来源" class="headerlink" title="各文件的来源"></a>各文件的来源</h2><ul>
+<li>ca.key：CA的私钥，由CA自行生成</li>
+<li>ca.crt：CA的公钥（证书），由CA根据ca.key生成</li>
+<li>user.key：用户的私钥，由用户自行生成</li>
+<li>user.crt：用户的，带CA签名的公钥（证书），用户向CA展示私钥后由CA颁发给用户</li>
+</ul>
+<h2 id="文件持有状态"><a href="#文件持有状态" class="headerlink" title="文件持有状态"></a>文件持有状态</h2><h3 id="私钥文件"><a href="#私钥文件" class="headerlink" title="私钥文件"></a>私钥文件</h3><p>每个人（包括CA），各自持有自己的私钥</p>
+<h3 id="公钥（证书）文件"><a href="#公钥（证书）文件" class="headerlink" title="公钥（证书）文件"></a>公钥（证书）文件</h3><p>CA只持有CA自己的证书<br>其他用户不仅持有自己的证书，并且还持有CA的证书（因为需要用CA的证书验证其他人身份，而不能验证的时候再临时从CA处获取）</p>
+<h2 id="CA验证流程"><a href="#CA验证流程" class="headerlink" title="CA验证流程"></a>CA验证流程</h2><p>仅以user.A访问user.B作为例子</p>
+<h3 id="B可以接受任何人访问，但是A要确认B的身份-https"><a href="#B可以接受任何人访问，但是A要确认B的身份-https" class="headerlink" title="B可以接受任何人访问，但是A要确认B的身份(https)"></a>B可以接受任何人访问，但是A要确认B的身份(https)</h3><ul>
+<li>第一步，通过CA的crt证书，确认B的crt证书真实性</li>
+<li>第二步，准备好要发送的信息，将信息通过B的公钥加密，发送给B</li>
+<li>第三步，B用私钥解密收到的信息，并且结合该信息进行回复（通常信息中会有随机数需要直接回复），以此证明自己的身份</li>
+</ul>
+<h3 id="B要确认A的身份，且也要确认B的身份-openvpn"><a href="#B要确认A的身份，且也要确认B的身份-openvpn" class="headerlink" title="B要确认A的身份，且也要确认B的身份(openvpn)"></a>B要确认A的身份，且也要确认B的身份(openvpn)</h3><ul>
+<li>第一步，互相展示crt证书并验证对方证书真实性</li>
+<li>第二步，互相发送用公钥加密的数据包</li>
+<li>第三步，收到对方的加密数据包后，解密并通过对方公钥加密，再次发送（自证数据包）</li>
+<li>第四步，各自收到对方的自证数据包，对比之前发送的数据，如果一样就完成验证</li>
+</ul>
+<script type="text&#x2F;javascript" src="https://unpkg.com/kity@2.0.4/dist/kity.min.js"></script><script type="text&#x2F;javascript" src="https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text&#x2F;javascript" src="https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text&#x2F;css" href="https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css">
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/single_site/2024/01/13/life-kernel/" rel="prev" title="人生哲学">
+      <i class="fa fa-chevron-left"></i> 人生哲学
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/single_site/2024/01/21/build-network/" rel="next" title="我的异地组网实践">
+      我的异地组网实践 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CA%E4%BD%93%E5%88%B6%E4%B8%AD%E7%9A%84%E8%A7%92%E8%89%B2"><span class="nav-number">1.</span> <span class="nav-text">CA体制中的角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%84%E6%96%87%E4%BB%B6%E7%9A%84%E6%9D%A5%E6%BA%90"><span class="nav-number">2.</span> <span class="nav-text">各文件的来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%8C%81%E6%9C%89%E7%8A%B6%E6%80%81"><span class="nav-number">3.</span> <span class="nav-text">文件持有状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%81%E9%92%A5%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">私钥文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%EF%BC%88%E8%AF%81%E4%B9%A6%EF%BC%89%E6%96%87%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">公钥（证书）文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CA%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">CA验证流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#B%E5%8F%AF%E4%BB%A5%E6%8E%A5%E5%8F%97%E4%BB%BB%E4%BD%95%E4%BA%BA%E8%AE%BF%E9%97%AE%EF%BC%8C%E4%BD%86%E6%98%AFA%E8%A6%81%E7%A1%AE%E8%AE%A4B%E7%9A%84%E8%BA%AB%E4%BB%BD-https"><span class="nav-number">4.1.</span> <span class="nav-text">B可以接受任何人访问，但是A要确认B的身份(https)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B%E8%A6%81%E7%A1%AE%E8%AE%A4A%E7%9A%84%E8%BA%AB%E4%BB%BD%EF%BC%8C%E4%B8%94%E4%B9%9F%E8%A6%81%E7%A1%AE%E8%AE%A4B%E7%9A%84%E8%BA%AB%E4%BB%BD-openvpn"><span class="nav-number">4.2.</span> <span class="nav-text">B要确认A的身份，且也要确认B的身份(openvpn)</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">LbLk</p>
+  <div class="site-description" itemprop="description">读研报，讲礼貌</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/single_site/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/single_site/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/single_site/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LbLk</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/single_site/lib/anime.min.js"></script>
+  <script src="/single_site/lib/velocity/velocity.min.js"></script>
+  <script src="/single_site/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/single_site/js/utils.js"></script>
+
+<script src="/single_site/js/motion.js"></script>
+
+
+<script src="/single_site/js/schemes/pisces.js"></script>
+
+
+<script src="/single_site/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '695e653ddeee97d630ba',
+      clientSecret: '992155cd3b91014a4a3c185456652b95d19c708f',
+      repo        : 'blog_comments',
+      owner       : 'lblk',
+      admin       : ['lblk'],
+      id          : 'ef2cf5f3d3db8d04ec763c4d68332c2d',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

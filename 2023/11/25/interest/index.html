@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/single_site/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/single_site/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/single_site/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/single_site/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/single_site/css/main.css">
+
+
+<link rel="stylesheet" href="/single_site/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lblk.github.io","root":"/single_site/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1.wow插件脚本编写2.rcore-os-lab3.painting pcb   3.0.bilibili入门课1 入门课2 入门课3  3.1.ft233RL项目  3.2.PCIe项目  3.3.ddr3项目  3.4.RK3568+3*I211AT  3.5.反激电源  3.6 poe供电&#x2F;DC圆头供电&#x2F;type-c DC供电耦合网络开机棒  4.cissp&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="感兴趣的主题">
+<meta property="og:url" content="http://lblk.github.io/single_site/2023/11/25/interest/index.html">
+<meta property="og:site_name" content="做题家的非洲">
+<meta property="og:description" content="1.wow插件脚本编写2.rcore-os-lab3.painting pcb   3.0.bilibili入门课1 入门课2 入门课3  3.1.ft233RL项目  3.2.PCIe项目  3.3.ddr3项目  3.4.RK3568+3*I211AT  3.5.反激电源  3.6 poe供电&#x2F;DC圆头供电&#x2F;type-c DC供电耦合网络开机棒  4.cissp&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-25T09:51:18.000Z">
+<meta property="article:modified_time" content="2024-03-31T10:13:15.774Z">
+<meta property="article:author" content="LbLk">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://lblk.github.io/single_site/2023/11/25/interest/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>感兴趣的主题 | 做题家的非洲</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/single_site/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">做题家的非洲</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/single_site/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/single_site/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/single_site/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/single_site/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/single_site/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lblk.github.io/single_site/2023/11/25/interest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/single_site/images/avatar.gif">
+      <meta itemprop="name" content="LbLk">
+      <meta itemprop="description" content="读研报，讲礼貌">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="做题家的非洲">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          感兴趣的主题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-25 17:51:18" itemprop="dateCreated datePublished" datetime="2023-11-25T17:51:18+08:00">2023-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-03-31 18:13:15" itemprop="dateModified" datetime="2024-03-31T18:13:15+08:00">2024-03-31</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>1.wow插件脚本编写<br>2.rcore-os-lab<br>3.painting pcb</p>
+<ul>
+<li><input disabled="" type="checkbox"> 3.0.<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1jh4y1D7zN">bilibili入门课1</a> <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1sN411g7NJ">入门课2</a> <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ga4y1Y7PL">入门课3</a></li>
+<li><input disabled="" type="checkbox"> 3.1.ft233RL项目</li>
+<li><input disabled="" type="checkbox"> 3.2.PCIe项目</li>
+<li><input disabled="" type="checkbox"> 3.3.ddr3项目</li>
+<li><input disabled="" type="checkbox"> 3.4.RK3568+3*I211AT</li>
+<li><input disabled="" type="checkbox"> 3.5.<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av916958057/">反激电源</a></li>
+<li><input disabled="" type="checkbox"> 3.6 poe供电&#x2F;DC圆头供电&#x2F;type-c DC供电耦合网络开机棒</li>
+</ul>
+<p>4.cissp&#x2F;cisp<br>5.finance财务知识<br>6.完善netmap，学习性能测试<br>7.LLM，通用基础层，对接所有LLM-kpi<br>8.LLM上层应用实践<br>9.释放做题家之魂<br>10.《深入linux内核架构》<br>11.网络协议栈建设</p>
+<ul>
+<li><input disabled="" type="checkbox"> 11.1 fstack + netmap移植协议栈</li>
+<li><input disabled="" type="checkbox"> 11.2 cifs&#x2F;nfs proxy</li>
+</ul>
+<p>12.geopandas计算&#x2F;导入<br>13.海量小文件存储</p>
+<ul>
+<li><input disabled="" type="checkbox"> 13.1.尝试部署minio</li>
+<li><input disabled="" type="checkbox"> 13.2.尝试部署ceph</li>
+</ul>
+<p>14.zsh<br>15.KLPMAKE<br>16.调试树莓派4b的istoreOS(docker+alist阿里云盘+lan)<br>17.开发板配置为网络开机器<br>18.端口反向器+端口映射研究<br>19.deepspeed多机多卡<br>20.wg-easy</p>
+<ul>
+<li><input disabled="" type="checkbox"> route-ip 在web上填写的功能</li>
+<li><input disabled="" type="checkbox"> 多租户功能（带验证码）</li>
+</ul>
+<script type="text&#x2F;javascript" src="https://unpkg.com/kity@2.0.4/dist/kity.min.js"></script><script type="text&#x2F;javascript" src="https://unpkg.com/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text&#x2F;javascript" src="https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text&#x2F;css" href="https://unpkg.com/hexo-simple-mindmap@0.8.0/dist/mindmap.min.css">
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/single_site/2023/11/25/20231125/" rel="prev" title="什么样的人不需要担心失业">
+      <i class="fa fa-chevron-left"></i> 什么样的人不需要担心失业
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/single_site/2023/12/02/network-fix-20231202/" rel="next" title="proxy原理">
+      proxy原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">LbLk</p>
+  <div class="site-description" itemprop="description">读研报，讲礼貌</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/single_site/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/single_site/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/single_site/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LbLk</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/single_site/lib/anime.min.js"></script>
+  <script src="/single_site/lib/velocity/velocity.min.js"></script>
+  <script src="/single_site/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/single_site/js/utils.js"></script>
+
+<script src="/single_site/js/motion.js"></script>
+
+
+<script src="/single_site/js/schemes/pisces.js"></script>
+
+
+<script src="/single_site/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '695e653ddeee97d630ba',
+      clientSecret: '992155cd3b91014a4a3c185456652b95d19c708f',
+      repo        : 'blog_comments',
+      owner       : 'lblk',
+      admin       : ['lblk'],
+      id          : '977f45484ce8fab07169b41bfb2fa87b',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
